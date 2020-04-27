@@ -1,73 +1,40 @@
-from getting_data import get_data_high, get_data_low, get_data_most_humid
+from getting_data import Data
 
-data_high = get_data_high('C:/Users/shiek/PycharmProjects/Assignment1/weatherdata/')
-data_low = get_data_low('C:/Users/shiek/PycharmProjects/Assignment1/weatherdata/')
-data_humidity = get_data_most_humid('C:/Users/shiek/PycharmProjects/Assignment1/weatherdata/')
-
-# To calculate highest temperature
+main_data = Data()
 
 
-def highest_temp(data, year):
+def temperatures(data, year):
     usable_year = []
     for item in data:
         if item[2] == int(year):
             usable_year.append(item)
-    initial = 0
-    day = 0
-    month = ''
+    h_temp = 0
+    l_temp = 1000
+    max_humid = 0
+    h_temp_day = 0
+    l_temp_day = 0
+    max_humid_day = 0
+    h_temp_month = 0
+    l_temp_month = 0
+    max_humid_month = 0
     for i in usable_year:
-        if i[3] > initial:
-            initial = i[3]
-            day = i[0]
-            month = i[1]
+        if i[3] > h_temp:
+            h_temp = i[3]
+            h_temp_day = i[0]
+            h_temp_month = i[1]
 
-    return f'Highest: {initial}C on {month} {day}'
+        if i[4] < l_temp:
+            l_temp = i[4]
+            l_temp_day = i[0]
+            l_temp_month = i[1]
 
+        if i[5] > max_humid:
+            max_humid = i[5]
+            max_humid_day = i[0]
+            max_humid_month = i[1]
 
-a = highest_temp(data_high, 2002)
-print(a)
-
-# To calculate lowest temperature
-
-
-def lowest_temp(data, year):
-    usable_year = []
-    for item in data:
-        if item[2] == int(year):
-            usable_year.append(item)
-    initial = 1000
-    day = 0
-    month = ''
-    for i in usable_year:
-        if initial > i[3]:
-            initial = i[3]
-            day = i[0]
-            month = i[1]
-
-    return f'Lowest: {initial}C on {month} {day}'
+    return f'Highest: {h_temp}C on {h_temp_day}/{h_temp_month}\nLowest: {l_temp}C on {l_temp_day}/{l_temp_month}\nHumid: {max_humid}% on {max_humid_day}/{max_humid_month}'
 
 
-b = lowest_temp(data_low, 2002)
-print(b)
-
-# To calculate most humid day and humidity
-
-
-def most_humid_day(data, year):
-    usable_year = []
-    for item in data:
-        if item[2] == int(year):
-            usable_year.append(item)
-    initial = 0
-    day = 0
-    month = ''
-    for i in usable_year:
-        if i[3] > initial:
-            initial = i[3]
-            day = i[0]
-            month = i[1]
-    return f'Humid: {initial}% on {month} {day}'
-
-
-c = most_humid_day(data_humidity, 2002)
-print(c)
+question1 = temperatures(main_data.get_data_temp(), 2011)
+print(question1)
